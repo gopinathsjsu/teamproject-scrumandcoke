@@ -14,4 +14,6 @@ public interface MovieService {
 
     List<MovieDto> getUpcomingMovies() throws GlobalException;
     List<MovieDto> getCurrentMovies() throws GlobalException;
+
+    List<MovieDto> getCurrentMoviesByTheater(Integer multiplexId) throws GlobalException;
 }

@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MovieServiceImpl implements MovieService {
@@ -146,6 +147,25 @@ public class MovieServiceImpl implements MovieService {
         }
     }
 
+    @Override
+    public List<MovieDto> getCurrentMoviesByTheater(Integer multiplexId) throws GlobalException {
+        try {
+            Date today = new Date();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(today);
+            calendar.add(Calendar.DAY_OF_MONTH, -7); // Set to one week ago
+            Date oneWeekAgo = calendar.getTime();
+
+            List<MovieEntity> recentMovies = movieRepository.findMoviesWithRecentRelease(multiplexId, oneWeekAgo, today);
+
+            return recentMovies.stream()
+                    .map(MovieDto::fromEntity) // Assuming you have a method to convert entity to DTO
+                    .collect(Collectors.toList());
+        } catch (Exception exception) {
+            throw new GlobalException("Error retrieving movies: " + exception.getMessage());
+        }
+    }
+
     private void validateMovieDto(MovieDto movieDto) throws GlobalException {
         if (movieDto == null) {
             throw new GlobalException("Movie details cannot be null");
@@ -162,6 +182,8 @@ public class MovieServiceImpl implements MovieService {
         return movieRepository.findById(movieId).orElseThrow(() ->
                 new GlobalException("Movie with the specified ID does not exist"));
     }
+
+
 
 }
 

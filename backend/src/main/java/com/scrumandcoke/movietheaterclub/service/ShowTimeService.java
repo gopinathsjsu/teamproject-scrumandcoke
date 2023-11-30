@@ -24,4 +24,5 @@ public interface ShowTimeService {
     void deleteShowTime(Integer id) throws GlobalException;
 
     Double getDiscountedPrice(Double price, Date time);
+
 }

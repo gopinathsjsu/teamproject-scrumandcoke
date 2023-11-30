@@ -58,7 +58,7 @@ public class MovieController {
 
     @PutMapping
     public void updateMovie(@RequestBody MovieDto movieDto) throws GlobalException {
-            movieService.updateMovie(movieDto);
+        movieService.updateMovie(movieDto);
     }
 
     @DeleteMapping("/{id}")
@@ -89,4 +89,17 @@ public class MovieController {
         }
     }
 
+    @GetMapping("/{multiplexId}/currentmovies")
+    public ResponseEntity<?> getRecentMovies(@PathVariable Integer multiplexId) {
+        try {
+            List<MovieDto> recentMovies = movieService.getCurrentMoviesByTheater(multiplexId);
+            if (recentMovies.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No recent movies found for the specified multiplex.");
+            }
+            return ResponseEntity.ok(recentMovies);
+        } catch (GlobalException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while fetching recent movies.");
+        }
+    }
 }
+
