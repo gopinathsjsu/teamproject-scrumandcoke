@@ -35,3 +35,51 @@ export const UpgradeMembership = async () => {
     return error.response;
   }
 };
+
+export const GetUpcomingBookings = async (id) => {
+  try {
+    const response = await axiosInstance.get(`booking/user/${id}/upcoming`);
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const GetPastBookings = async (id) => {
+  try {
+    const response = await axiosInstance.get(`booking/user/${id}/past`);
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const CancelBooking = async (id) => {
+  try {
+    const response = await axiosInstance.post(`booking/${id}`);
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const CreateBooking = async (payload) => {
+  try {
+    const response = await axiosInstance.post(`booking`, payload);
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+//admin
+export const GetAnalytics1 = async () => {
+  try {
+    const response = await axiosInstance.get(
+      `v0/analytics/theaterOccupanciesByMovie`
+    );
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};

@@ -43,7 +43,7 @@ export const GetMovieById = async (id) => {
 //user
 export const GetCurrentlyPlaying = async () => {
   try {
-    const response = await axiosInstance.get("movie/current");
+    const response = await axiosInstance.get("showtime/movies/upcoming");
     return response;
   } catch (error) {
     return error.response;

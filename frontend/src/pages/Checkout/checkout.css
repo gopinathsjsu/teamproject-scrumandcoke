@@ -100,6 +100,8 @@
 .checkout-container .order-summary .summary-total {
   font-size: 22px;
   margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .checkout-container .order-summary .summary-total p:last-child {
@@ -149,4 +151,9 @@
   .checkout-container .card {
     width: auto;
   }
+}
+
+.checkout-container .discount {
+  font-weight: 400 !important;
+  font-size: 12px;
 }

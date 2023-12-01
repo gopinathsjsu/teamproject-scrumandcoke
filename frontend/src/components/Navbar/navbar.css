@@ -63,6 +63,10 @@
   margin-bottom: 0;
 }
 
+.for-admin {
+  width: 10rem !important;
+}
+
 .premium {
   color: gold;
   margin: auto;

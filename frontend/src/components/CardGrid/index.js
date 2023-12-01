@@ -9,7 +9,13 @@ const CardGrid = ({ title, description, image, onClick }) => {
     <AntCard
       hoverable
       style={{ width: "240px", margin: "10px" }}
-      cover={<img alt={title} src={image} />}
+      cover={
+        <img
+          alt={title}
+          src={image}
+          style={{ height: "325px", objectFit: "cover" }}
+        />
+      }
       onClick={onClick}
     >
       <AntCard.Meta title={title} description={truncatedDescription} />

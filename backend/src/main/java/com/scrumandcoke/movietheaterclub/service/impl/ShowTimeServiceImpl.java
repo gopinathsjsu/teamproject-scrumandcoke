@@ -252,13 +252,11 @@ public class ShowTimeServiceImpl implements ShowTimeService {
             Date releaseDate = movie.getReleaseDate();  // This is your Date object
             LocalDate localReleaseDate = releaseDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-            if (localReleaseDate.toEpochDay() < LocalDate.now().toEpochDay()) {
-                movieWithShowtimesDto.setMovieName(movie.getMovieName());
-                movieWithShowtimesDto.setSynopsis(movie.getSynopsis());
-                movieWithShowtimesDto.setPosterUrl(movie.getPosterUrl());
+            movieWithShowtimesDto.setMovieName(movie.getMovieName());
+            movieWithShowtimesDto.setSynopsis(movie.getSynopsis());
+            movieWithShowtimesDto.setPosterUrl(movie.getPosterUrl());
                 // Set other movie details as needed
 
-            }
             moviesWithShowtimes.add(movieWithShowtimesDto);
         }
 

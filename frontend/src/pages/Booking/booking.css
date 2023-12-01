@@ -1,4 +1,5 @@
-.movie-details {
+.movie-details,
+.theater-details {
   text-align: center;
   background: #f7f7f7;
   padding: 20px;
@@ -69,4 +70,16 @@
 
 .ant-select {
   width: 120px;
+}
+
+.no-showtimes {
+  text-align: center;
+}
+
+.booking-dates {
+  margin-top: 1rem;
+}
+
+.showtimes {
+  padding-top: 0 !important;
 }

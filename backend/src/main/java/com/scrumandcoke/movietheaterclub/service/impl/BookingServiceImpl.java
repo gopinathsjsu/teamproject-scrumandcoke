@@ -75,7 +75,7 @@ public class BookingServiceImpl implements BookingService {
             validateShowtime(booking.getShowtimeId());
             validateMovieReleaseDate(booking.getShowtimeId());
             reduceAvailableSeats(booking.getShowtimeId(), booking.getSeatsBooked());
-            bookingEntity.setOnlineServiceFee(calculateServiceFee(booking.getUserId()));
+            bookingEntity.setOnlineServiceFee(booking.getOnlineServiceFee());
             bookingEntity.setBookingDate(Date.from(Instant.now()));
             if (booking.getUserId() != null)
                 processPayment(booking.getUserId(), booking.getPaymentMethod(), booking.getPointsAmount(),
@@ -167,16 +167,6 @@ public class BookingServiceImpl implements BookingService {
         showTimeService.updateShowTime(showtimeId, showtime);
     }
 
-    private Double calculateServiceFee(String userId) {
-        if (userId == null)
-            return serviceCharge;
-
-        MemberType memberType = userService.getUserByUserId(userId).getMemberType();
-        if (memberType == MemberType.PREMIUM)
-            return 0.0;
-        return serviceCharge;
-    }
-
     private void processPayment(String userId, PaymentMethod paymentMethod, Double pointsAmount,
                                 Double cashPoints, TransactionType transactionType) throws GlobalException {
         if (paymentMethod.equals(PaymentMethod.POINTS)) {
@@ -186,9 +176,9 @@ public class BookingServiceImpl implements BookingService {
             userService.updatePoints(userId, pointsAmount, transactionType);
         }
         if (transactionType == TransactionType.DEBIT)
-            userService.updatePoints(userId, Math.ceil(cashPoints / 10), TransactionType.CREDIT);
+            userService.updatePoints(userId, Math.ceil(cashPoints), TransactionType.CREDIT);
         else
-            userService.updatePoints(userId, Math.ceil(cashPoints / 10), TransactionType.DEBIT);
+            userService.updatePoints(userId, Math.ceil(cashPoints), TransactionType.DEBIT);
     }
 
     private void validatePointsBalance(String userId, Double pointsAmount) throws GlobalException {

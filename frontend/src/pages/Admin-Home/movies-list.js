@@ -28,10 +28,10 @@ function MoviesList() {
       render: (text, record) => {
         return (
           <img
-            src={record.poster}
+            src={record.posterUrl}
             alt="poster"
             height="60"
-            width="80"
+            width="60"
             className="br-1"
           />
         );

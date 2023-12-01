@@ -16,7 +16,6 @@ public interface BookingMapper {
     BookingDto toDto(BookingEntity bookingEntity);
 
     @Mapping(target = "bookingId", ignore = true)
-    @Mapping(target = "onlineServiceFee", ignore = true)
     @Mapping(target = "bookingStatus", ignore = true)
     @Mapping(target = "bookingDate", ignore = true)
     @Mapping(target = "showtime", source = "showtimeId", qualifiedByName = "showtimeIdToShowtimeEntity")

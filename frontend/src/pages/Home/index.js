@@ -8,170 +8,23 @@ import {
   GetCurrentlyPlaying,
   GetUpcomingShows,
 } from "../../apicalls/movies";
-import { GetAllTheaters } from "../../apicalls/theaters";
+import { GetAllLocations, GetAllTheaters } from "../../apicalls/theaters";
 import Loader from "../../components/Loader/loader";
 import moviePlaceholder from "../../assets/movie-placeholder.png";
 import theaterPlaceholder from "../../assets/theater-placeholder.png";
+import locationPlaceholder from "../../assets/place-placeholder.png";
 
 const HomePage = () => {
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [movies, setMovies] = useState([
-    {
-      id: 1,
-      title: "Space Adventure",
-      description: "A journey to the stars",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      title: "The Mystery House",
-      description: "A thrilling mystery",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      title: "Romance in Rome",
-      description: "A romantic tale",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      title: "Space Adventure",
-      description: "A journey to the stars",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      title: "The Mystery House",
-      description: "A thrilling mystery",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      title: "Romance in Rome",
-      description: "A romantic tale",
-      image: "https://via.placeholder.com/150",
-    },
-  ]);
+  const [movies, setMovies] = useState([]);
 
-  const [theaters, setTheaters] = useState([
-    {
-      id: 1,
-      title: "Grand Cinema",
-      description: "The best movie experience in town",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      title: "Starlight Theater",
-      description: "Enjoy movies under the stars",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      title: "Downtown Cineplex",
-      description: "The heart of the city's movie scene",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      title: "Grand Cinema",
-      description: "The best movie experience in town",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      title: "Starlight Theater",
-      description: "Enjoy movies under the stars",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      title: "Downtown Cineplex",
-      description: "The heart of the city's movie scene",
-      image: "https://via.placeholder.com/150",
-    },
-  ]);
+  const [theaters, setTheaters] = useState([]);
 
-  const locations = [
-    {
-      id: 1,
-      title: "City Center",
-      description: "Located in the heart of the city",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      title: "Suburban Spot",
-      description: "Easy parking and great shops",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      title: "Riverside",
-      description: "Scenic views and top-notch facilities",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      title: "City Center",
-      description: "Located in the heart of the city",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      title: "Suburban Spot",
-      description: "Easy parking and great shops",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      title: "Riverside",
-      description: "Scenic views and top-notch facilities",
-      image: "https://via.placeholder.com/150",
-    },
-  ];
+  const [locations, setLocations] = useState([]);
 
-  const [upcomingMovies, setUpcomingMovies] = useState([
-    {
-      id: 1,
-      title: "Future World",
-      description: "A glimpse into the future",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      title: "The Great Heist",
-      description: "An action-packed thriller",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      title: "Comedy Nights",
-      description: "Laughs and more laughs",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      title: "Future World",
-      description: "A glimpse into the future",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      title: "The Great Heist",
-      description: "An action-packed thriller",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      title: "Comedy Nights",
-      description: "Laughs and more laughs",
-      image: "https://via.placeholder.com/150",
-    },
-  ]);
+  const [upcomingMovies, setUpcomingMovies] = useState([]);
 
   const getMoviesData = async () => {
     try {
@@ -244,6 +97,28 @@ const HomePage = () => {
     }
   };
 
+  const getLocations = async () => {
+    try {
+      setIsLoading(true);
+      const response = await GetAllLocations();
+
+      if (response.status === 200) {
+        const formattedLocations = response.data.map((location) => ({
+          ...location,
+          title: location.name,
+          image: location.posterUrl ? location.posterUrl : locationPlaceholder,
+        }));
+        setLocations(formattedLocations);
+      } else {
+        message.error(response.data);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      message.error(error.message);
+    }
+  };
+
   const CustomNextArrow = ({ onClick }) => (
     <div className="custom-next-arrow" onClick={onClick}>
       →
@@ -292,6 +167,7 @@ const HomePage = () => {
     getMoviesData();
     getTheatersData();
     getUpcomingShows();
+    getLocations();
   }, []);
 
   if (isLoading) {
@@ -300,16 +176,16 @@ const HomePage = () => {
 
   return (
     <div className="homepage-container">
-      <h2>Theaters</h2>
+      <h2 className="h2-homepage">Theaters</h2>
       {renderCarousel(theaters, "theater")}
 
-      <h2>Locations</h2>
+      <h2 className="h2-homepage">Locations</h2>
       {renderCarousel(locations, "location")}
 
-      <h2>Currently Playing</h2>
+      <h2 className="h2-homepage">Currently Playing</h2>
       {renderCarousel(movies, "movie")}
 
-      <h2>Upcoming Movies</h2>
+      <h2 className="h2-homepage">Upcoming Movies</h2>
       {renderCarousel(upcomingMovies, "movie")}
     </div>
   );

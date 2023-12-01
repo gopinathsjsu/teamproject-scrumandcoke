@@ -70,7 +70,7 @@ export const UpdateShow = async (payload) => {
   }
 };
 
-//??
+//user
 export const GetShowById = async (id) => {
   try {
     const response = await axiosInstance.get(`showtime/${id}`);
@@ -112,7 +112,9 @@ export const GetShowsByTheater = async (id) => {
 
 export const GetShowsByTheaterAndMovie = async (theaterId, movieId) => {
   try {
-    const response = await axiosInstance.get(`showtime/screen/${theaterId}/movie/${movieId}`);
+    const response = await axiosInstance.get(
+      `showtime/screen/${theaterId}/movie/${movieId}`
+    );
     return response;
   } catch (error) {
     return error.response;
@@ -132,6 +134,33 @@ export const GetShowsByLocation = async (name) => {
 export const GetMoviesByTheater = async (id) => {
   try {
     const response = await axiosInstance.get(`showtime/screen/${id}/movies`);
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const GetAllLocations = async () => {
+  try {
+    const response = await axiosInstance.get(`multiplex`);
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const GetLocationById = async (id) => {
+  try {
+    const response = await axiosInstance.get(`multiplex/${id}`);
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const GetTheatersByLocation = async (id) => {
+  try {
+    const response = await axiosInstance.get(`multiplex/theater/v2/${id}`);
     return response;
   } catch (error) {
     return error.response;

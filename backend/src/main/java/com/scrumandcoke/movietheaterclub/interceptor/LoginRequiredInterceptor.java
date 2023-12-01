@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -47,7 +46,12 @@ public class LoginRequiredInterceptor implements HandlerInterceptor {
             }
         }
 
+        if (sessionId == null && Objects.nonNull(httpRequest.getHeader("x-session-id"))) {
+            sessionId = httpRequest.getHeader("x-session-id");
+        }
+
         if (sessionId == null) {
+            httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
         }
 

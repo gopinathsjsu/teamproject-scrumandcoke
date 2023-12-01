@@ -30,3 +30,7 @@
   display: flex !important;
   justify-content: center;
 }
+
+.h2-homepage {
+  margin-top: 1.5rem;
+}

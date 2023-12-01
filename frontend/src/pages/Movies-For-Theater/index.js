@@ -4,94 +4,37 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./movies.css";
 import { GetMoviesByTheater, GetTheaterById } from "../../apicalls/theaters";
 import { message } from "antd";
+import moviePlaceholder from "../../assets/movie-placeholder.png";
+import Loader from "../../components/Loader/loader";
 
 const MoviesForTheater = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [theater, setTheater] = useState({
-    name: "Cinema Central",
-    location: "Downtown",
-  });
+  const [theater, setTheater] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [movies, setMovies] = useState([
-    {
-      id: 1,
-      title: "Space Adventure",
-      description: "A journey to the stars",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      title: "The Mystery House",
-      description: "A thrilling mystery",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      title: "Romance in Rome",
-      description: "A romantic tale",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      title: "Space Adventure",
-      description: "A journey to the stars",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      title: "The Mystery House",
-      description: "A thrilling mystery",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 2,
-      title: "Romance in Rome",
-      description: "A romantic tale",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 2,
-      title: "Romance in Rome",
-      description: "A romantic tale",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 2,
-      title: "Romance in Rome",
-      description: "A romantic tale",
-      image: "https://via.placeholder.com/150",
-    },
-
-    {
-      id: 2,
-      title: "Romance in Rome",
-      description: "A romantic tale",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 2,
-      title: "Romance in Rome",
-      description: "A romantic tale",
-      image: "https://via.placeholder.com/150",
-    },
-  ]);
+  const [movies, setMovies] = useState([]);
 
   const fetchTheaterData = async () => {
     try {
+      setIsLoading(true);
       const response = await GetTheaterById(id);
+      console.log(response);
 
       if (response.status == 200) {
         setTheater(response.data);
       } else {
-        message.error(response.data);
+        message.error(response?.data);
       }
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       message.error(error);
     }
   };
 
   const fetchMovies = async () => {
+    setIsLoading(true);
     try {
       const response = await GetMoviesByTheater(id);
 
@@ -101,12 +44,15 @@ const MoviesForTheater = () => {
           id: movie.movieId,
           title: movie.movieName,
           description: movie.synopsis,
+          image: movie.posterUrl ? movie.posterUrl : moviePlaceholder,
         }));
         setMovies(formattedMovies);
       } else {
         message.error(response.data);
       }
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       message.error(error);
     }
   };
@@ -120,6 +66,10 @@ const MoviesForTheater = () => {
     fetchTheaterData();
     fetchMovies();
   }, []);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="homepage-container">
@@ -138,7 +88,7 @@ const MoviesForTheater = () => {
             <CardGrid
               title={item.title}
               description={item.description}
-              image={item.image}
+              image={item.posterUrl}
             />
           </div>
         ))}

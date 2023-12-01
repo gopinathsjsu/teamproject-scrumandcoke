@@ -30,7 +30,6 @@ public class UserSessionDetail {
 
     private Date lastUpdatedAt;
 
-    @JsonIgnore
     private String sessionId;
 
     private Date sessionExpireAt;

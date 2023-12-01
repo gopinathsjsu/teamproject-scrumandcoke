@@ -1,14 +1,3 @@
-# teamproject-scrumandcoke
-teamproject-scrumandcoke created by GitHub Classroom
-
-## Technology Stack
-
-- Frontend: React.js
-- Backend: Springboot
-- Database: MySQL
-- Deployment: AWS
-
-## XP Values
 
 Two of the core XP values we selected are - "Communication" and "Feedback."
 
@@ -33,5 +22,4 @@ b. Peer Code Reviews: Before merging any code changes, we conducted thorough pee
 c. Retrospectives: After each development sprint, we held retrospectives to reflect on what went well and what could be improved. This feedback loop allowed us to make continuous process enhancements.
 
 In summary, by adhering to the XP Core Values of "Communication" and "Feedback," our team cultivated a culture of transparency, collaboration, and adaptability throughout the project. These values not only helped us deliver a successful application but also fostered a sense of ownership and shared responsibility among team members, ensuring that everyone's contributions were valued and considered.
-
 

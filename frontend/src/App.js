@@ -18,8 +18,11 @@ import AnalyticsDashboard from "./pages/Admin-Stats";
 import MoviesForTheater from "./pages/Movies-For-Theater";
 import TheatersForLocation from "./pages/Theaters-For-Location";
 import MembershipCheckout from "./pages/Membership-Checkout";
+import { Navigate } from "react-router-dom";
 
 const App = () => {
+  const { userInfo } = useSelector((state) => state.auth);
+
   const Menu = () => {
     return (
       <Routes>
@@ -27,8 +30,6 @@ const App = () => {
         <Route path="register" element={<Register />} />
         <Route path="*" element={<Sorry />} />
         <Route path="/" element={<Home />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/analytics" element={<AnalyticsDashboard />} />
         <Route path="/movie/:id" element={<Movie />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/checkout" element={<Checkout />} />
@@ -40,6 +41,27 @@ const App = () => {
         <Route path="/tickets" element={<Tickets />} />
         <Route path="/theater/:id" element={<MoviesForTheater />} />
         <Route path="/location/:id" element={<TheatersForLocation />} />
+
+        <Route
+          path="/admin"
+          element={
+            userInfo?.userType === "THEATER_EMPLOYEE" ? (
+              <Admin />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/analytics"
+          element={
+            userInfo?.userType === "THEATER_EMPLOYEE" ? (
+              <AnalyticsDashboard />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
       </Routes>
     );
   };

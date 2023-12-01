@@ -27,6 +27,7 @@ const Login = () => {
 
       if (res.data) {
         dispatch(setCredentials({ ...res }));
+
         if (res.data.userType === "THEATER_EMPLOYEE") {
           navigate("/admin");
         } else {
@@ -42,7 +43,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (userInfo) {
+    if (userInfo && userInfo.userType != "THEATER_EMPLOYEE") {
       navigate("/");
     }
   }, [userInfo]);

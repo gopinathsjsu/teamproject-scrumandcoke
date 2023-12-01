@@ -2,6 +2,8 @@ package com.scrumandcoke.movietheaterclub.controller;
 
 import java.util.List;
 
+import com.scrumandcoke.movietheaterclub.dto.TheaterScreenDto;
+import com.scrumandcoke.movietheaterclub.service.TheaterScreenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,10 @@ public class MultiplexController {
 
     @Autowired
     MultiplexService multiplexService;
+
+
+    @Autowired
+    TheaterScreenService theaterScreenService;
 
     @GetMapping
     public List<LocationDto> getAllMultiplex() throws GlobalException {
@@ -55,6 +61,7 @@ public class MultiplexController {
         multiplexService.deleteMultiplex(id);
     }
     @GetMapping("theater/{locationId}")
+    @Deprecated
     public ResponseEntity<List<LocationDto>> getTheatersByLocationId(@PathVariable int locationId) {
         try {
             List<LocationDto> theaters = multiplexService.getTheatersByLocationId(locationId);
@@ -62,5 +69,10 @@ public class MultiplexController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @GetMapping("theater/v2/{locationId}")
+    public List<TheaterScreenDto> getTheatersByLocationIdv2(@PathVariable int locationId) {
+        return theaterScreenService.getTheatersByLocationIdV2(locationId);
     }
 }

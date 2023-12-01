@@ -10,16 +10,7 @@ function TheatersList() {
   const [showTheaterFormModal, setShowTheaterFormModal] = useState(false);
   const [selectedTheater, setSelectedTheater] = useState(null);
   const [formType, setFormType] = useState("add");
-  const [Theaters, setTheaters] = useState([
-    {
-      key: 1,
-      name: "XYZ Theater",
-      address: "#342",
-      phone: 123456,
-      email: "asdafdsf",
-      isActive: true,
-    },
-  ]);
+  const [Theaters, setTheaters] = useState([]);
   const [openShowsModal, setOpenShowsModal] = useState(false);
 
   const getData = async () => {

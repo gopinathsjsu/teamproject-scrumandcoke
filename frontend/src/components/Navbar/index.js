@@ -42,7 +42,7 @@ const Navbar = () => {
       ></button>
       <div className="collapse navbar-collapse" id="navbarNavDropdown">
         {userInfo?.userType === "THEATER_EMPLOYEE" ? (
-          <ul className="navbar-nav main-nav">
+          <ul className="navbar-nav main-nav for-admin">
             <li className="nav-item">
               <NavLink className="nav-link" to="/admin">
                 Home
@@ -70,7 +70,7 @@ const Navbar = () => {
         )}
 
         {userInfo?.memberType == "PREMIUM" && (
-          <div className="premium">Premium!!</div>
+          <div className="premium">Premium!</div>
         )}
 
         {userInfo ? (

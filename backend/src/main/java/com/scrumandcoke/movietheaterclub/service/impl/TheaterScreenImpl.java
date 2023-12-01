@@ -1,24 +1,23 @@
 package com.scrumandcoke.movietheaterclub.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import java.util.Optional;
-
+import com.scrumandcoke.movietheaterclub.dto.TheaterScreenDto;
+import com.scrumandcoke.movietheaterclub.entity.LocationEntity;
+import com.scrumandcoke.movietheaterclub.entity.TheaterScreenEntity;
+import com.scrumandcoke.movietheaterclub.exception.GlobalException;
+import com.scrumandcoke.movietheaterclub.repository.MultiplexRepository;
+import com.scrumandcoke.movietheaterclub.repository.TheaterScreenRepository;
+import com.scrumandcoke.movietheaterclub.service.TheaterScreenService;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
-import com.scrumandcoke.movietheaterclub.dto.TheaterScreenDto;
-import com.scrumandcoke.movietheaterclub.exception.GlobalException;
-import com.scrumandcoke.movietheaterclub.entity.LocationEntity;
-import com.scrumandcoke.movietheaterclub.entity.TheaterScreenEntity;
-import com.scrumandcoke.movietheaterclub.repository.MultiplexRepository;
-import com.scrumandcoke.movietheaterclub.repository.TheaterScreenRepository;
-import com.scrumandcoke.movietheaterclub.service.TheaterScreenService;
-
-import jakarta.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TheaterScreenImpl implements TheaterScreenService {
@@ -139,6 +138,15 @@ public class TheaterScreenImpl implements TheaterScreenService {
     }
 
     @Override
+    public List<TheaterScreenDto> getTheatersByLocationIdV2(int locationId) {
+        List<TheaterScreenEntity> theaterScreenEntities = theaterScreenRepository.findByLocationEntity_Id(locationId);
+        if (CollectionUtils.isEmpty(theaterScreenEntities)) {
+            return Collections.emptyList();
+        }
+        return getTheaterScreenDtos(theaterScreenEntities);
+    }
+
+    @Override
     public List<TheaterScreenDto> getAllTheaterScreens() throws GlobalException {
         try {
             List<TheaterScreenEntity> theaterScreenEntities = theaterScreenRepository.findAll();
@@ -196,7 +204,6 @@ public class TheaterScreenImpl implements TheaterScreenService {
                 .orElseThrow(() -> new GlobalException("Theater with the specified ID does not exist"));
         return theater.getSeatingCapacity();
     }
-
 
 
 }

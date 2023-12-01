@@ -1,14 +1,19 @@
 package com.scrumandcoke.movietheaterclub.controller;
 
+import com.scrumandcoke.movietheaterclub.annotation.LoginRequired;
+import com.scrumandcoke.movietheaterclub.annotation.UserTypesAllowed;
 import com.scrumandcoke.movietheaterclub.dto.MovieDto;
 import com.scrumandcoke.movietheaterclub.dto.MovieWithShowtimesDto;
 import com.scrumandcoke.movietheaterclub.dto.ShowTimeDto;
+import com.scrumandcoke.movietheaterclub.dto.UserSessionDetail;
 import com.scrumandcoke.movietheaterclub.enums.Location;
+import com.scrumandcoke.movietheaterclub.enums.UserType;
 import com.scrumandcoke.movietheaterclub.exception.GlobalException;
 import com.scrumandcoke.movietheaterclub.service.ShowTimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +26,8 @@ public class ShowTimeController {
     ShowTimeService showTimeService;
 
     @PostMapping
+    @LoginRequired
+    @UserTypesAllowed({UserType.THEATER_EMPLOYEE})
     public ResponseEntity<String> addShowTIme(@RequestBody ShowTimeDto showTimeDto) throws GlobalException {
         try {
             showTimeService.addShowTime(showTimeDto);
@@ -108,11 +115,15 @@ public class ShowTimeController {
     }
 
     @PutMapping("{id}")
+    @LoginRequired
+    @UserTypesAllowed({UserType.THEATER_EMPLOYEE})
     public void updateshowTime(@PathVariable int id, @RequestBody ShowTimeDto showTimeDto) throws GlobalException {
         showTimeService.updateShowTime(id, showTimeDto);
     }
 
     @DeleteMapping("/{id}")
+    @LoginRequired
+    @UserTypesAllowed({UserType.THEATER_EMPLOYEE})
     public ResponseEntity<?> deleteshowTime(@PathVariable int id) {
         try {
             showTimeService.deleteShowTime(id);

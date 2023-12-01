@@ -1,6 +1,9 @@
 package com.scrumandcoke.movietheaterclub.controller;
 
+import com.scrumandcoke.movietheaterclub.annotation.LoginRequired;
+import com.scrumandcoke.movietheaterclub.annotation.UserTypesAllowed;
 import com.scrumandcoke.movietheaterclub.dto.MovieDto;
+import com.scrumandcoke.movietheaterclub.enums.UserType;
 import com.scrumandcoke.movietheaterclub.exception.GlobalException;
 import com.scrumandcoke.movietheaterclub.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,8 @@ public class MovieController {
 
 
     @PostMapping
+    @LoginRequired
+    @UserTypesAllowed({UserType.THEATER_EMPLOYEE})
     public ResponseEntity<String> addMovie(@RequestBody MovieDto movieDto) throws GlobalException {
         try {
             movieService.addMovie(movieDto);
@@ -59,11 +64,15 @@ public class MovieController {
     }
 
     @PutMapping("{id}")
+    @LoginRequired
+    @UserTypesAllowed({UserType.THEATER_EMPLOYEE})
     public void updateMovie(@PathVariable int id, @RequestBody MovieDto movieDto) throws GlobalException {
             movieService.updateMovie(id, movieDto);
     }
 
     @DeleteMapping("/{id}")
+    @LoginRequired
+    @UserTypesAllowed({UserType.THEATER_EMPLOYEE})
     public ResponseEntity<?> deleteMovie(@PathVariable int id) {
         try {
             movieService.deleteMovie(id);

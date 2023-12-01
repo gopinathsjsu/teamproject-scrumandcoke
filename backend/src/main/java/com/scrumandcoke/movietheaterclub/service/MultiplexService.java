@@ -1,10 +1,10 @@
 package com.scrumandcoke.movietheaterclub.service;
 
-import java.util.List;
-
 import com.scrumandcoke.movietheaterclub.dto.LocationDto;
-import com.scrumandcoke.movietheaterclub.exception.GlobalException;
 import com.scrumandcoke.movietheaterclub.enums.Location;
+import com.scrumandcoke.movietheaterclub.exception.GlobalException;
+
+import java.util.List;
 
 public interface MultiplexService {
 	void addMultiplex(LocationDto locationDto) throws GlobalException;

@@ -2,6 +2,9 @@ package com.scrumandcoke.movietheaterclub.controller;
 
 import java.util.List;
 
+import com.scrumandcoke.movietheaterclub.annotation.LoginRequired;
+import com.scrumandcoke.movietheaterclub.annotation.UserTypesAllowed;
+import com.scrumandcoke.movietheaterclub.enums.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +29,8 @@ public class TheaterScreenController {
 	TheaterScreenService theaterScreenService;
 
 	@PostMapping
+    @LoginRequired
+    @UserTypesAllowed({UserType.THEATER_EMPLOYEE})
 	public ResponseEntity<String> createTheaterScreen(@RequestBody TheaterScreenDto theaterScreenDto) throws GlobalException {
         try {
             theaterScreenService.createTheaterScreen(theaterScreenDto);
@@ -58,6 +63,8 @@ public class TheaterScreenController {
     }
 	
 	@PutMapping("/{id}")
+    @LoginRequired
+    @UserTypesAllowed({UserType.THEATER_EMPLOYEE})
     public ResponseEntity<TheaterScreenDto> updateTheaterScreen(@PathVariable int id, @RequestBody TheaterScreenDto theaterScreenDto) {
         try {
             TheaterScreenDto updatedDto = theaterScreenService.updateTheaterScreen(id, theaterScreenDto);
@@ -68,6 +75,8 @@ public class TheaterScreenController {
     }
 	
 	@DeleteMapping("/{id}")
+    @LoginRequired
+    @UserTypesAllowed({UserType.THEATER_EMPLOYEE})
     public ResponseEntity<?> deleteTheaterScreen(@PathVariable int id) {
         try {
             theaterScreenService.deleteTheaterScreen(id);

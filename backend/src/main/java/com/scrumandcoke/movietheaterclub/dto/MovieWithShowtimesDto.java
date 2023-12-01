@@ -13,6 +13,7 @@ public class MovieWithShowtimesDto {
     private Integer movieId;
     private String movieName;
     private String synopsis;
+
     private String posterUrl;
 
 

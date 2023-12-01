@@ -26,30 +26,29 @@ public class IAMController {
         UserSessionDetail userSessionDetail = iamService.signUp(createUserRequest);
 
         Cookie cookie = new Cookie("sid", userSessionDetail.getSessionId());
-        cookie.setHttpOnly(false);
+        cookie.setHttpOnly(false); // Consider setting true for better security
         cookie.setPath("/");
-        cookie.setSecure(true);
-        String cookieHeader = String.format("sid=%s; HttpOnly; Path=/; Secure; SameSite=None", userSessionDetail.getSessionId());
+        // Updated cookie header without the Secure directive
+        String cookieHeader = String.format("sid=%s; HttpOnly=false; Path=/;", userSessionDetail.getSessionId());
         response.addHeader("Set-Cookie", cookieHeader);
 
         return userSessionDetail;
     }
-
 
     @PostMapping("/login")
     public UserSessionDetail signIn(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse response) {
         UserSessionDetail userSessionDetail = iamService.signIn(loginRequest.getEmail(), loginRequest.getPassword());
 
         Cookie cookie = new Cookie("sid", userSessionDetail.getSessionId());
-        cookie.setHttpOnly(false);
+        cookie.setHttpOnly(false); // Consider setting true for better security
         cookie.setPath("/");
-        cookie.setSecure(true);
-        String cookieHeader = String.format("sid=%s; HttpOnly; Path=/; Secure; SameSite=None", userSessionDetail.getSessionId());
+        // Set SameSite=None for cross-site cookie usage
+        String cookieHeader = String.format("sid=%s; HttpOnly=false; Path=/;", userSessionDetail.getSessionId());
         response.addHeader("Set-Cookie", cookieHeader);
-
 
         return userSessionDetail;
     }
+
 
 
     @GetMapping("/isAuthenticated")
